@@ -1,6 +1,5 @@
-clear all
 delete(instrfind)
-scom = serial('COM11','BaudRate',38400);
+scom = serial('COM3','BaudRate',38400);
 
 gx = 0;
 gy = 0;
@@ -10,7 +9,7 @@ trigger = -1
 fopen(scom);
 fprintf(scom,'a')
 c1 = clock;
-while j <= 5000
+while j <= 1500
     if (scom.BytesAvailable)
         t = fgetl(scom);
         t = split(t);
@@ -25,13 +24,13 @@ while j <= 5000
 end
 c2 = clock;
 fclose(scom)
-j./(c2(5)*60+c2(6)-c1(5)*60-c1(6))
-figure();
-plot(gx);
-hold on;
-plot(gy);
-plot(gz);
-hold off;
+j./(c2(5)*60+c2(6)-c1(5)*60-c1(6));
+% figure();
+% plot(gx);
+% hold on;
+% plot(gy);
+% plot(gz);
+% hold off;
 
 gx = gx(trigger-10:trigger+500);
 gy = gy(trigger-10:trigger+500);
@@ -61,17 +60,20 @@ gxf = abs(gxf);
 gyf = abs(gyf);
 gzf = abs(gzf);
 
-% figure();
-% plot(gxf(2:end));
-% hold on;
-% plot(gyf(2:end));
-% plot(gzf(2:end));
-% hold off;
-% figure();
-% hold on;
-% plot(gxp(2:end));
-% plot(gyp(2:end));
-% plot(gzp(2:end));
-% hold off;
-signal = [gxp(2:end)',gxf(2:end)',gyp(2:end)',gyf(2:end)',gzp(2:end)',gzf(2:end)'];
-csvwrite('7/7_'+int2str(count), signal);
+%  figure();
+%  plot(gxf(2:end));
+%  hold on;
+%  plot(gyf(2:end));
+%  plot(gzf(2:end));
+%  hold off;
+%  figure();
+%  hold on;
+%  plot(gxp(2:end));
+%  plot(gyp(2:end));
+%  plot(gzp(2:end));
+%  hold off;
+
+
+signal = [gxf(2:end)',gxp(2:end)',gyf(2:end)',gyp(2:end)',gzf(2:end)',gzp(2:end)'];
+csvwrite(strcat('7/7_',int2str(count),'.csv'), signal);
+count = count + 1;
